@@ -20,7 +20,7 @@
     form.addEventListener('submit', e => {
       e.preventDefault();
       const data = new FormData(form);
-      fetch('https://script.google.com/macros/s/AKfycbyM4-slEFW8O9aJJWsSJ6s9oqFN71bCkkFtyw9WPNtCE8VsopqyoooLFu25rYxeuVLS/exec', {
+      fetch('https://script.google.com/macros/library/d/1yIhdWFyUQe17dfGIHFYjtYO3R9F60JLm0VI3GsgwQbUkO1Dl0OQMOPxA/2', {
         method: 'POST',
         body: JSON.stringify(Object.fromEntries(data)),
         headers: {'Content-Type': 'application/json'}
