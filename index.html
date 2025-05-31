@@ -22,6 +22,7 @@
       const data = new FormData(form);
       fetch('https://script.google.com/macros/s/AKfycbyM4-slEFW8O9aJJWsSJ6s9oqFN71bCkkFtyw9WPNtCE8VsopqyoooLFu25rYxeuVLS/exec', {
         method: 'POST',
+         mode: 'no-cors',
         body: JSON.stringify(Object.fromEntries(data)),
         headers: {'Content-Type': 'application/json'}
       })
