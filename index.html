@@ -72,10 +72,10 @@
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-              <img src="${imageUrl}" alt="${row['Name'] || 'Unknown'}" />
+              <img src="${imageUrl}" alt="${row['Name'] || 'Name'}" />
               <div class="card-content">
                 <h3>${row['Name'] || 'Unknown'}</h3>
-                <p><strong>Crime:</strong> ${row['Crime'] || 'Unknown'}</p>
+                <p><strong>Crime:</strong> ${row['Crime'] || 'Crime'}</p>
               </div>
             `;
             container.appendChild(card);
