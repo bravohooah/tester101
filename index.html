@@ -1,43 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add Fugitive Profiles</title>
+  <meta charset="UTF-8">
+  <title>Most Wanted Fugitives</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h1 { text-align: center; }
+    .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      width: 250px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content { padding: 10px; }
+    .card h3 { margin: 0; }
+    .card a { text-decoration: none; color: blue; }
+    .form-link { text-align: center; margin-bottom: 20px; }
+  </style>
 </head>
 <body>
+  <h1>Most Wanted Fugitives</h1>
+  <div class="form-link">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDZgQ8OBOLbKshKc96xez8Ty68MD4hDYBL36DMMz_-zzljDA/viewform?usp=sf_link" target="_blank">➕ Submit a New Profile</a>
+  </div>
+  <div class="grid" id="fugitives"></div>
 
-  <h2>Add New Fugitive Profiless</h2>
-
-  <form id="addProfileForm">
-    <input type="text" name="name" placeholder="Name" required /><br/><br/>
-    <input type="text" name="crime" placeholder="Crime" required /><br/><br/>
-    <input type="url" name="image_url" placeholder="Image URL" /><br/><br/>
-    <input type="url" name="profile_url" placeholder="Profile URL" /><br/><br/>
-    <button type="submit">Add Profile</button>
-  </form>
-
+  <!-- Tabletop.js -->
+  <script src="https://cdn.jsdelivr.net/npm/tabletop@1.6.0/tabletop.min.js"></script>
   <script>
-    const form = document.getElementById('addProfileForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const data = new FormData(form);
-      fetch('https://script.google.com/macros/s/AKfycbyM4-slEFW8O9aJJWsSJ6s9oqFN71bCkkFtyw9WPNtCE8VsopqyoooLFu25rYxeuVLS/exec', {
-        method: 'POST',
-         mode: 'no-cors',
-        body: JSON.stringify(Object.fromEntries(data)),
-        headers: {'Content-Type': 'application/json'}
-      })
-      .then(res => res.json())
-      .then(response => {
-        if(response.result === "success") {
-          alert('Profile added successfully!');
-          form.reset();
-        } else {
-          alert('Error: ' + response.message);
+    document.addEventListener('DOMContentLoaded', function () {
+      Tabletop.init({
+        key: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyBv0ki2krl3s5LXQ2eK5iX34z0GpovKjCm2S1Y7-5DtFBa407j-nvvIxBghhBFg_E94oPU8pj18c0/pubhtml',
+        simpleSheet: true,
+        callback: function(data) {
+          const container = document.getElementById('fugitives');
+          data.forEach(person => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <img src="${person.image_url || 'https://via.placeholder.com/250x200'}" alt="${person.name}">
+              <div class="card-content">
+                <h3>${person.name}</h3>
+                <p>${person.crime}</p>
+                <a href="${person.profile_url}" target="_blank">View Profile</a>
+              </div>
+            `;
+            container.appendChild(card);
+          });
         }
-      })
-      .catch(err => alert('Request failed: ' + err.message));
+      });
     });
   </script>
-
 </body>
 </html>
