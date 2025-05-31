@@ -49,13 +49,8 @@
   <!-- Include PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script>
-    // Function to convert Google Drive share links to direct image URLs
-    function convertDriveLink(url) {
-      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)\//);
-      return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
+      // ✅ Replace this with your actual Published CSV link
       const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyBv0ki2krl3s5LXQ2eK5iX34z0GpovKjCm2S1Y7-5DtFBa407j-nvvIxBghhBFg_E94oPU8pj18c0/pub?output=csv';
 
       Papa.parse(csvUrl, {
@@ -66,24 +61,22 @@
           const container = document.getElementById('fugitives');
 
           data.forEach(row => {
-            const name = row['Name'] || 'Unknown';
-            const crime = row['Crime'] || 'Unknown';
-            const imageUrl = row['imageUrl']
-              ? convertDriveLink(row['imageUrl'])
-              : 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-                <svg xmlns="http://www.w3.org/2000/svg" width="250" height="200">
+            const imageUrl = row['Image URL'] || 
+              'data:image/svg+xml;utf8,' + 
+              encodeURIComponent(
+                `<svg xmlns="http://www.w3.org/2000/svg" width="250" height="200">
                   <rect width="250" height="200" fill="#cccccc"/>
                   <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#666666" font-family="Arial" font-size="20">No Image</text>
-                </svg>
-              `);
+                </svg>`
+              );
 
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-              <img src="${imageUrl}" alt="${name}" />
+              <img src="${imageUrl}" alt="${row['Name'] || 'Unknown'}" />
               <div class="card-content">
-                <h3>${name}</h3>
-                <p><strong>Crime:</strong> ${crime}</p>
+                <h3>${row['Name'] || 'Unknown'}</h3>
+                <p><strong>Crime:</strong> ${row['Crime'] || 'Unknown'}</p>
               </div>
             `;
             container.appendChild(card);
