@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
@@ -58,7 +58,7 @@
         header: true,
         complete: function(results) {
           const data = results.data;
-          const container = document.getElementById('Name');
+          const container = document.getElementById('fugitives');
 
           data.forEach(row => {
             const imageUrl = row['Image URL'] || 
@@ -73,9 +73,9 @@
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-              <img src="${imageUrl}" alt="${row['Name'] || 'Jose Test'}" />
+              <img src="${imageUrl}" alt="${row['Name'] || 'Unknown'}" />
               <div class="card-content">
-                <h3>${row['Name'] || 'Test Jose'}</h3>
+                <h3>${row['Name'] || 'Unknown'}</h3>
                 <p><strong>Crime:</strong> ${row['Crime'] || 'Unknown'}</p>
               </div>
             `;
