@@ -46,19 +46,23 @@
   <h1>Most Wanted Fugitives</h1>
   <div class="grid" id="fugitives"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tabletop@1.6.0/tabletop.min.js"></script>
+  <!-- Include PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      Tabletop.init({
-        key: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyBv0ki2krl3s5LXQ2eK5iX34z0GpovKjCm2S1Y7-5DtFBa407j-nvvIxBghhBFg_E94oPU8pj18c0/pub?output=csv',
-        simpleSheet: true,
-        callback: function(data) {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/your-sheet-id/pub?output=csv'; // Replace with your actual CSV URL
+
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const data = results.data;
           const container = document.getElementById('fugitives');
           data.forEach(row => {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-              <img src="${row.image || 'https://via.placeholder.com/250x200?text=No+Image'}" alt="${row.name}">
+              <img src="${row.image_url || 'https://via.placeholder.com/250x200?text=No+Image'}" alt="${row.name}">
               <div class="card-content">
                 <h3>${row.name}</h3>
                 <p><strong>Crime:</strong> ${row.crime}</p>
